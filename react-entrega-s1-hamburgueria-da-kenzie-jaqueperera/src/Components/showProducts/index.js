@@ -1,24 +1,17 @@
-const showProducts = ({ products, filteredProducts, setFilteredProducts }) => {
-  const showleValue = () => {
-    products(filteredProducts);
-    setFilteredProducts("");
-  };
+const ShowProducts = ({ products, setFilteredProducts }) => {
+  const filter = "";
+  function showleValue(filter) {
+    // return (setFilteredProducts = products.filter((filter = products.name)));
+  }
 
   return (
     <div className="showProducts">
-      <form onSubmit={(event) => showProducts(event.preventDefault())}>
-        <input
-          type="text"
-          placeholder="Produtos filtrados"
-          value={filteredProducts}
-          onChange={(event) => setFilteredProducts(event.target.value)}
-        />
-        <button type="submit" onClick={showleValue}>
-          Pesquisar
-        </button>
-      </form>
+      <input type="text" placeholder="Produtos filtrados" value={filter} />
+      <button type="submit" onClick={showleValue(filter)}>
+        Pesquisar
+      </button>
     </div>
   );
 };
 
-export default showProducts;
+export default ShowProducts;

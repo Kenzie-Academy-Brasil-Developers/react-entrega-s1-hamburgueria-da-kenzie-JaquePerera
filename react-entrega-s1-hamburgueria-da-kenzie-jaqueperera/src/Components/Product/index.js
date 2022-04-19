@@ -1,12 +1,24 @@
+import "./product.css";
 function Product({ product, handleClick }) {
   return (
     <div className="product">
-      <img src={product.img} alt={product.name} />
-      <div className="nome">{product.name}</div>
-      <div className="categoria">{product.category}</div>
-      <div className="preco">R$ {product.price}.00</div>
+      <div className="ProductCardHeader">
+        <img src={product.img} alt={product.name} />
+      </div>
 
-      <button onClick={() => handleClick(product.id)}>Adicionar</button>
+      <div className="ProductCardMain">
+        <div className="nome">{product.name}</div>
+        <div className="categoria">{product.category}</div>
+        <div className="preco">
+          {product.price.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </div>
+        <button className="adiciona" onClick={() => handleClick(product.id)}>
+          Adicionar
+        </button>
+      </div>
     </div>
   );
 }

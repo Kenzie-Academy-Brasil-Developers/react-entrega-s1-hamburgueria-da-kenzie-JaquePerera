@@ -1,9 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import MenuContainer from "./Components/MenuContainer";
-import product from "./Components/Product";
-import totalPrice from "./Components/totalPrice";
-import showProducts from "./Components/showProducts";
+import ShowProducts from "./Components/showProducts";
 import "./App.css";
 import Carrinho from "./Components/Carrinho";
 
@@ -57,41 +55,60 @@ function App() {
   const [currentSale, setCurrentSale] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
 
-  function handleClick({ productId }) {
+  function handleClick(productId) {
     const productAux = products.find((product) => {
       return product.id === productId;
     });
     setCurrentSale([...currentSale, productAux]);
   }
 
-  const totalPrice = ({ products }) => {
-    return products.reduce(
+  function totalPrice(productPrice) {
+    const totalPriceAux = products.price.reduce(
       (acumulador, valorAtual) => acumulador + valorAtual.price,
       0
     );
-  };
+    setCartTotal([...cartTotal, totalPriceAux]);
+  }
 
   return (
     <div className="App">
-      <header className="container">
-        <MenuContainer products={products} handleClick={handleClick} />
-        <showProducts
+      <div className="page">
+        <div className="header">
+          <div className="esquerda">
+            <h1>Buguer</h1>
+            <h2>Kenzie</h2>
+          </div>
+          <div className="direita">
+            <ShowProducts
+              products={products}
+              setFilteredProducts={setFilteredProducts}
+            />
+          </div>
+        </div>
+        <div className="container">
+          <MenuContainer products={products} handleClick={handleClick} />
+          <Carrinho
+            currentSale={currentSale}
+            setCurrentSale={setCurrentSale}
+            totalPrice={totalPrice}
+          />
+          {/* <showProducts
           products={products}
           filteredProducts={filteredProducts}
           setFilteredProducts={setFilteredProducts}
-        />
-        <Carrinho currentSale={currentSale} />
-        <totalPrice
+        /> */}
+          {/* <totalPrice
           products={products}
           cartTotal={cartTotal}
           setCartTotal={setCartTotal}
-        />
-        <totalPrice
+          />
+          <totalPrice
           products={products}
           cartTotal={cartTotal}
           setCartTotal={setCartTotal}
-        />
-      </header>
+        /> */}
+        </div>
+      </div>
     </div>
   );
 }

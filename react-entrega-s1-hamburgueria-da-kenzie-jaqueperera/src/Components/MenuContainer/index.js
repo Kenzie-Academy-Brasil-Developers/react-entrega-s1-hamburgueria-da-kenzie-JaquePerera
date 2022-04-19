@@ -1,4 +1,5 @@
 import Product from "../Product";
+import "./menuContainer.css";
 
 function MenuContainer({ products, handleClick }) {
   return (

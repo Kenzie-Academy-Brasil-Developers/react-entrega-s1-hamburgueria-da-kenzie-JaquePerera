@@ -1,0 +1,9 @@
+.menuContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  width: 940px;
+  height: 735px;
+}
