@@ -1,14 +1,26 @@
 import Product from "../Product";
 import "./menuContainer.css";
 
-function MenuContainer({ products, handleClick }) {
+function MenuContainer({ products, filteredProducts, handleClick }) {
   return (
     <div className="menuContainer">
-      {products.map((item) => {
-        return (
-          <Product key={item.id} product={item} handleClick={handleClick} />
-        );
-      })}
+      {filteredProducts.length > 0 ? (
+        <>
+          {filteredProducts.map((item) => {
+            return (
+              <Product key={item.id} product={item} handleClick={handleClick} />
+            );
+          })}
+        </>
+      ) : (
+        <>
+          {products.map((item) => {
+            return (
+              <Product key={item.id} product={item} handleClick={handleClick} />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }

@@ -56,18 +56,29 @@ function App() {
   const [cartTotal, setCartTotal] = useState(0);
 
   function handleClick(productId) {
-    const productAux = products.find((product) => {
-      return product.id === productId;
-    });
-    setCurrentSale([...currentSale, productAux]);
-  }
+    //fazer a validação aqui do produto repetido pode usar o if mesmo
+    if (currentSale.length > 0) {
+      let itemCar = currentSale.find((product) => {
+        return product.id === productId;
+      });
 
-  function totalPrice(productPrice) {
-    const totalPriceAux = products.price.reduce(
-      (acumulador, valorAtual) => acumulador + valorAtual.price,
-      0
-    );
-    setCartTotal([...cartTotal, totalPriceAux]);
+      if (productId !== itemCar?.id) {
+        //optional chaining
+        const productAux = products.find((product) => {
+          return product.id === productId;
+        });
+        setCurrentSale([...currentSale, productAux]);
+        setCartTotal(cartTotal + productAux.price);
+      } else {
+        alert("Produto já existe no carrinho");
+      }
+    } else {
+      const productAux = products.find((product) => {
+        return product.id === productId;
+      });
+      setCurrentSale([...currentSale, productAux]);
+      setCartTotal(cartTotal + productAux.price);
+    }
   }
 
   return (
@@ -86,27 +97,18 @@ function App() {
           </div>
         </div>
         <div className="container">
-          <MenuContainer products={products} handleClick={handleClick} />
+          <MenuContainer
+            products={products}
+            filteredProducts={filteredProducts}
+            handleClick={handleClick}
+          />
           <Carrinho
             currentSale={currentSale}
             setCurrentSale={setCurrentSale}
-            totalPrice={totalPrice}
+            cartTotal={cartTotal}
+            setCartTotal={setCartTotal}
+            products={products}
           />
-          {/* <showProducts
-          products={products}
-          filteredProducts={filteredProducts}
-          setFilteredProducts={setFilteredProducts}
-        /> */}
-          {/* <totalPrice
-          products={products}
-          cartTotal={cartTotal}
-          setCartTotal={setCartTotal}
-          />
-          <totalPrice
-          products={products}
-          cartTotal={cartTotal}
-          setCartTotal={setCartTotal}
-        /> */}
         </div>
       </div>
     </div>

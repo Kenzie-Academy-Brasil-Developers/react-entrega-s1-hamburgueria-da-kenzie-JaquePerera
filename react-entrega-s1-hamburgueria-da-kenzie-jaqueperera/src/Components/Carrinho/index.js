@@ -1,8 +1,26 @@
 import "./carrinho.css";
-import { useState } from "react";
 
-const Carrinho = ({ currentSale, setCurrentSale, totalPrice }) => {
-  const [cartTotal, setCartTotal] = useState(0);
+const Carrinho = ({
+  currentSale,
+  setCurrentSale,
+  cartTotal,
+  setCartTotal,
+  products,
+}) => {
+  function remove(itemId) {
+    let filtered = currentSale.filter((currentProduct) => {
+      return itemId !== currentProduct.id;
+    });
+
+    setCurrentSale(filtered);
+
+    let productAux = products.find((product) => {
+      return product.id === itemId;
+    });
+
+    setCartTotal(cartTotal - productAux.price);
+  }
+
   return (
     <div className="currentSale">
       <div className="headerCar">
@@ -20,20 +38,19 @@ const Carrinho = ({ currentSale, setCurrentSale, totalPrice }) => {
               return (
                 <div className="currentItens" key={item.id}>
                   <div className="itemImg">
-                    <img src={item.img} alt={item.name} />
+                    <img className="imgCar" src={item.img} alt={item.name} />
                   </div>
                   <div className="itemBody" key={item.id}>
-                    <div className="esquerda">
+                    <div className="esquerdaCar">
                       <h4>{item.name}</h4>
                       <p>{item.category}</p>
-                      {/* {setCartTotal(cartTotal + item.price)} */}
                     </div>
 
-                    <div className="direita">
-                      <button className="remove" onClick={() => item.id}>
-                        {/* {(currentSale.id!=item.id) */}
-                        {/* setCurrentSale([currentSale.id]) */}
-                        {/* } */}
+                    <div className="direitaCar">
+                      <button
+                        className="remove"
+                        onClick={() => remove(item.id)}
+                      >
                         Remover
                       </button>
                     </div>
@@ -47,11 +64,19 @@ const Carrinho = ({ currentSale, setCurrentSale, totalPrice }) => {
             <div className="blocoTotal">
               <div className="totalPrice">
                 <h3 className="totalh3">Total</h3>
-                <p className="totalp">R$ {cartTotal}</p>
+                <p className="totalp">
+                  {cartTotal.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </p>
               </div>
               <button
                 className="removeTodos"
-                onClick={() => setCurrentSale([])}
+                onClick={() => {
+                  setCurrentSale([]);
+                  setCartTotal([]);
+                }}
               >
                 Remover todos
               </button>
